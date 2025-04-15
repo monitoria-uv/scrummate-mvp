@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "ScrumMate - Tu asistente de Scrum",
-  description: "Asistente virtual para equipos Scrum",
+  title: 'ScrumMate - Tu asistente de Scrum',
+  description: 'Asistente virtual para equipos Scrum',
 };
 
 export default function RootLayout({

@@ -1,0 +1,77 @@
+'use client';
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import { UserRoundCog, Presentation, Layers2, Lightbulb } from 'lucide-react';
+
+const items = [
+  {
+    title: 'Scrum Assistant',
+    link: '/scrum-assistant',
+    icon: UserRoundCog,
+  },
+  {
+    title: 'Meet Assistant',
+    link: '/meet-assistant',
+    icon: Presentation,
+  },
+  {
+    title: 'User Stories',
+    link: '/user-stories',
+    icon: Lightbulb,
+  },
+  {
+    title: 'Good Practices',
+    link: '/good-practices',
+    icon: Layers2,
+  },
+];
+
+export function AppSidebar() {
+  const currentPath = usePathname();
+
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <div className="flex items-center justify-start gap-2 px-2">
+          <Image src="/icon.png" alt="FinTrack" width={40} height={40} />
+          <h1 className="text-2xl font-semibold text-gray-800">ScrumMate</h1>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Chats</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.link}>
+                  <Link href={item.link} passHref>
+                    <SidebarMenuButton isActive={currentPath === item.link}>
+                      <item.icon className="w-6 h-6 mr-2" />
+                      {item.title}
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  );
+}
