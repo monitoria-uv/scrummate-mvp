@@ -1,12 +1,12 @@
-import { ChatWindow } from '@/components/ui/features/chatWindow';
-import { ChatHeader } from '@/components/ui/features/chatHeader';
+import { ScrumAssistantChatHeader } from '@/components/ui/features/scrum-assistant/scrumAssistantChatHeader';
+import { ScrumAssistantChatWindow } from '@/components/ui/features/scrum-assistant/scrumAssistantChatWindow';
 import { Footer } from '@/components/ui/features/footer';
 
 export default function ScrumAssistantModule() {
   return (
     <>
-      <ChatHeader />
-      <ChatWindow />
+      <ScrumAssistantChatHeader />
+      <ScrumAssistantChatWindow chatId="default-chat" />
       <Footer />
     </>
   );
