@@ -4,42 +4,61 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Markdown from 'react-markdown';
 import { cn } from '@/lib/utils';
 
-interface ChatMessageProps {
+export interface ChatMessageProps {
   message: Message;
+  renderAvatar?: (sender: Message['sender']) => React.ReactNode;
+  className?: string;
+  messageStyles?: {
+    user?: string;
+    assistant?: string;
+  };
+  contentClassName?: string;
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({
+  message,
+  renderAvatar,
+  className,
+  messageStyles,
+  contentClassName,
+}: ChatMessageProps) {
   const isUser = message.sender === 'user';
   const timestamp = new Date(message.timestamp).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   });
 
+  const defaultAvatar = (
+    <Avatar className="h-8 w-8">
+      <AvatarFallback>{isUser ? '👤' : '🤖'}</AvatarFallback>
+    </Avatar>
+  );
+
   return (
-    <div className={cn('flex w-full gap-2 items-start', isUser ? 'justify-end' : 'justify-start')}>
-      {!isUser && (
-        <Avatar className="h-8 w-8">
-          <AvatarFallback>🤖</AvatarFallback>
-        </Avatar>
+    <div
+      className={cn(
+        'flex w-full gap-2 items-start',
+        isUser ? 'justify-end' : 'justify-start',
+        className,
       )}
+    >
+      {!isUser && (renderAvatar?.(message.sender) ?? defaultAvatar)}
 
       <Card
         className={cn(
           'max-w-[75%] rounded-2xl px-4 py-2 shadow-sm',
-          isUser ? 'bg-blue-100 dark:bg-blue-900 text-right' : 'bg-muted text-left',
+          isUser
+            ? (messageStyles?.user ?? 'bg-blue-100 dark:bg-blue-900 text-right')
+            : (messageStyles?.assistant ?? 'bg-muted text-left'),
         )}
       >
-        <CardContent className="p-0">
+        <CardContent className={cn('p-0', contentClassName)}>
           <Markdown>{message.text}</Markdown>
           <div className="text-xs text-muted-foreground mt-1 text-right">{timestamp}</div>
         </CardContent>
       </Card>
 
-      {isUser && (
-        <Avatar className="h-8 w-8">
-          <AvatarFallback>👤</AvatarFallback>
-        </Avatar>
-      )}
+      {isUser && (renderAvatar?.(message.sender) ?? defaultAvatar)}
     </div>
   );
 }
