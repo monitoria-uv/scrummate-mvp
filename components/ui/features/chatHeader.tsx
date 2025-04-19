@@ -6,6 +6,7 @@ type HeaderProps<T extends ElementType> = {
   icon?: React.ReactNode;
   title: string;
   as?: T;
+  children?: React.ReactNode;
 } & Omit<ComponentPropsWithoutRef<T>, 'title'>;
 
 export function ChatHeader<T extends ElementType = 'header'>({
@@ -13,6 +14,7 @@ export function ChatHeader<T extends ElementType = 'header'>({
   title,
   as,
   className,
+  children,
   ...props
 }: HeaderProps<T>) {
   const Component = as || 'header';
@@ -25,6 +27,7 @@ export function ChatHeader<T extends ElementType = 'header'>({
         {icon && <span className="text-blue-600">{icon}</span>}
         <h1 className="text-xl font-semibold tracking-tight text-gray-900">{title}</h1>
       </div>
+      {children && <div className="flex items-center">{children}</div>}
     </Component>
   );
 }
