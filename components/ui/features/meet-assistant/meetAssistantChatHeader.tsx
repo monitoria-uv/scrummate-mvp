@@ -13,7 +13,10 @@ export function MeetAssistantChatHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <ChatHeader title="Asistente de reuniones/ceremonias Scrum" icon={<ChatBubbleIcon className="h-6 w-6" />}>
+    <ChatHeader
+      title="Asistente de reuniones/ceremonias Scrum"
+      icon={<ChatBubbleIcon className="h-6 w-6" />}
+    >
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button
