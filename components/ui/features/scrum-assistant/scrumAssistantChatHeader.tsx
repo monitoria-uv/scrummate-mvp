@@ -1,11 +1,5 @@
 import { ChatHeader } from '@/components/ui/features/chatHeader';
-import {
-  ChatBubbleIcon,
-  QuestionMarkCircledIcon,
-  LightningBoltIcon,
-  PersonIcon,
-  CalendarIcon,
-} from '@radix-ui/react-icons';
+import { ChatBubbleIcon, QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import {
   Dialog,
@@ -35,7 +29,7 @@ export function ScrumAssistantChatHeader() {
               <DialogTitle className="text-xl">Guía del Asistente Scrum</DialogTitle>
               <p className="text-sm text-gray mt-1">Preguntas clave para comenzar</p>
             </DialogHeader>
-            <div className="space-y-6 py-2">              
+            <div className="space-y-6 py-2">
               <section className="space-y-3">
                 <div className="space-y-3">
                   <div className="p-3 border rounded-lg bg-blue-50">
@@ -53,7 +47,7 @@ export function ScrumAssistantChatHeader() {
                 </div>
               </section>
               <section className="space-y-3">
-                <h3 className="font-semibold text-lg flex items-center gap-2">                  
+                <h3 className="font-semibold text-lg flex items-center gap-2">
                   Otros asistentes disponibles
                 </h3>
                 <div className="flex flex-wrap gap-2">

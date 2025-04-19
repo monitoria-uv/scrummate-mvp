@@ -1,4 +1,5 @@
-import { FC, KeyboardEvent, useRef, ReactNode } from 'react';
+import type { FC, KeyboardEvent, ReactNode } from 'react';
+import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { PaperPlaneIcon } from '@radix-ui/react-icons';

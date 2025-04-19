@@ -6,7 +6,7 @@ export default function ScrumAssistantModule() {
   return (
     <>
       <ScrumAssistantChatHeader />
-      <ScrumAssistantChatWindow chatId="default-chat" />
+      <ScrumAssistantChatWindow chatId="assistant-chat" />
       <Footer />
     </>
   );

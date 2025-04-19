@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef, JSX, use } from 'react';
-import { Message } from '@/types/message';
+import type { JSX } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import type { Message } from '@/types/message';
 import { ChatMessage } from '@/components/ui/features/chatMessage';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
-import { on } from 'events';
 
 export interface ChatWindowProps {
   chatId: string;
@@ -27,7 +27,6 @@ export function ChatWindow({
   renderMessage,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
@@ -51,7 +50,9 @@ export function ChatWindow({
   }, [messages]);
 
   useEffect(() => {
-    fetchMessages(chatId).then(setMessages);
+    fetchMessages(chatId)
+      .then(setMessages)
+      .catch((error) => console.error('Error fetching messages:', error));
   }, [chatId, fetchMessages, refreshTrigger]);
 
   useEffect(() => {

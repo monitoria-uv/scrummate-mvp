@@ -1,7 +1,7 @@
 'use client';
 
 import { ChatMessage } from '@/components/ui/features/chatMessage';
-import { Message } from '@/types/message';
+import type { Message } from '@/types/message';
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar';
 
 export interface ScrumAssistantChatMessageProps {

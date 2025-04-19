@@ -1,4 +1,4 @@
-import { Message } from '@/types/message';
+import type { Message } from '@/types/message';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Markdown from 'react-markdown';

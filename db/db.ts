@@ -1,9 +1,7 @@
 import { chatSchema } from '@/components/schema/chat';
-import { Chat } from '@/types/chat';
+import type { Chat } from '@/types/chat';
 import { messageSchema } from '@/components/schema/message';
-import { Message } from '@/types/message';
-
-const DEFAULT_CHAT_ID = 'default-chat';
+import type { Message } from '@/types/message';
 
 export async function openDB() {
   return new Promise((resolve, reject) => {
@@ -55,7 +53,7 @@ export async function openDB() {
   });
 }
 
-export async function addChat(chat: Chat): Promise<Boolean> {
+export async function addChat(chat: Chat): Promise<boolean> {
   try {
     const validatedChat = chatSchema.parse(chat);
     const db = await openDB();
@@ -162,6 +160,7 @@ export async function getMessagesByChatId(chatId: string): Promise<Message[]> {
       request.onsuccess = () => {
         console.log('🔹 Mensajes obtenidos exitosamente');
         const result = request.result as Message[];
+        console.log(result);
         const filtered = result.filter((msg) => msg.chat_id === chatId);
         const sorted = filtered.sort(
           (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
@@ -250,36 +249,5 @@ export async function getAllMessages(): Promise<Message[]> {
 
     request.onsuccess = () => resolve(request.result as Message[]);
     request.onerror = () => reject(request.error);
-  });
-}
-
-export async function getOrCreateDefaultChat(): Promise<Chat> {
-  const db = await openDB();
-
-  return new Promise((resolve, reject) => {
-    const tx = (db as IDBDatabase).transaction('chats', 'readwrite');
-    const store = tx.objectStore('chats');
-
-    const getRequest = store.get(DEFAULT_CHAT_ID);
-
-    getRequest.onsuccess = () => {
-      const existingChat = getRequest.result;
-      if (existingChat) {
-        resolve(existingChat);
-      } else {
-        const now = new Date().toISOString();
-        const newChat: Chat = {
-          id: DEFAULT_CHAT_ID,
-          role: 'user',
-          created_at: now,
-          updated_at: now,
-        };
-        const addRequest = store.add(newChat);
-        addRequest.onsuccess = () => resolve(newChat);
-        addRequest.onerror = () => reject(addRequest.error);
-      }
-    };
-
-    getRequest.onerror = () => reject(getRequest.error);
   });
 }

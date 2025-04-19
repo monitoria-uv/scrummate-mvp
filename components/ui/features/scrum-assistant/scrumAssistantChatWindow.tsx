@@ -2,8 +2,8 @@
 
 import { ChatWindow } from '@/components/ui/features/chatWindow';
 import { getScrumRoleResponse } from '@/utils/gemini';
-import { addMessage, getMessagesByChatId, getOrCreateDefaultChat } from '@/db/db';
-import { Message } from '@/types/message';
+import { addMessage, getMessagesByChatId } from '@/db/db';
+import type { Message } from '@/types/message';
 import { useState, useCallback } from 'react';
 import { ScrumAssistantChatTextInput } from '@/components/ui/features/scrum-assistant/scrumAssistantChatTextInput';
 import { ScrumAssistantChatMessage } from '@/components/ui/features/scrum-assistant/scrumAssistantChatMessage';

@@ -1,6 +1,6 @@
 'use client';
 
-import { ElementType, ComponentPropsWithoutRef } from 'react';
+import type { ElementType, ComponentPropsWithoutRef } from 'react';
 
 type HeaderProps<T extends ElementType> = {
   icon?: React.ReactNode;
