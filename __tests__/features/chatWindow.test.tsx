@@ -22,8 +22,8 @@ const mockMessages: Message[] = [
 ];
 
 jest.mock('react-markdown', () => (props: any) => {
-    return <div data-testid="mock-react-markdown">{props.children}</div>;
-  });
+  return <div data-testid="mock-react-markdown">{props.children}</div>;
+});
 
 const mockFetchMessages = jest.fn((chatId: string) => Promise.resolve(mockMessages));
 const mockOnSendMessage = jest.fn((input: string) => Promise.resolve(mockMessages));
@@ -58,9 +58,9 @@ describe('<ChatWindow />', () => {
       fetchMessages: jest.fn(() => Promise.resolve([])),
       emptyLabel: 'No hay mensajes',
     };
-    
+
     render(<ChatWindow {...emptyProps} />);
-    
+
     expect(await screen.findByText('No hay mensajes')).toBeInTheDocument();
   });
 
@@ -70,9 +70,9 @@ describe('<ChatWindow />', () => {
         {message.text}
       </div>
     );
-    
+
     render(<ChatWindow {...baseProps} renderMessage={customRender} />);
-    
+
     await waitFor(() => {
       expect(screen.getAllByTestId('custom-message')).toHaveLength(2);
     });
@@ -82,15 +82,15 @@ describe('<ChatWindow />', () => {
     const mockObserve = jest.fn((callback: any) => {
       callback([{ isIntersecting: true }]);
     });
-    
+
     (global as any).IntersectionObserver = jest.fn().mockImplementation(() => ({
       observe: mockObserve,
       unobserve: jest.fn(),
       disconnect: jest.fn(),
     }));
-    
+
     render(<ChatWindow {...baseProps} />);
-    
+
     await waitFor(() => {
       expect(screen.queryByRole('button', { name: /Ir al final/i })).not.toBeInTheDocument();
     });
@@ -102,37 +102,37 @@ describe('<ChatWindow />', () => {
       unobserve: jest.fn(),
       disconnect: jest.fn(),
     }));
-  
+
     // Crear un elemento mock para bottomRef
     const mockElement = {
       scrollIntoView: jest.fn(),
     };
-    
+
     // Mockear useRef para devolver nuestro elemento mock
     jest.spyOn(React, 'useRef').mockImplementation(() => ({
-      current: mockElement
+      current: mockElement,
     }));
-  
+
     render(<ChatWindow {...baseProps} />);
-    
+
     await waitFor(() => {
       fireEvent.click(screen.getByRole('button', { name: /Ir al final/i }));
       expect(mockElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
     });
-  
+
     (React.useRef as jest.Mock).mockRestore();
   });
 
   // 4. Tests de efectos
   it('vuelve a cargar mensajes cuando cambia chatId', async () => {
     const { rerender } = render(<ChatWindow {...baseProps} />);
-    
+
     await waitFor(() => {
       expect(mockFetchMessages).toHaveBeenCalledWith('chat-1');
     });
-    
+
     rerender(<ChatWindow {...baseProps} chatId="chat-2" />);
-    
+
     await waitFor(() => {
       expect(mockFetchMessages).toHaveBeenCalledWith('chat-2');
       expect(mockFetchMessages).toHaveBeenCalledTimes(2);
@@ -141,13 +141,13 @@ describe('<ChatWindow />', () => {
 
   it('vuelve a cargar mensajes cuando cambia refreshTrigger', async () => {
     const { rerender } = render(<ChatWindow {...baseProps} />);
-    
+
     await waitFor(() => {
       expect(mockFetchMessages).toHaveBeenCalledTimes(1);
     });
-    
+
     rerender(<ChatWindow {...baseProps} refreshTrigger={2} />);
-    
+
     await waitFor(() => {
       expect(mockFetchMessages).toHaveBeenCalledTimes(2);
     });
@@ -156,33 +156,33 @@ describe('<ChatWindow />', () => {
   it('maneja errores al cargar mensajes', async () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     mockFetchMessages.mockRejectedValueOnce(new Error('Fetch error'));
-    
+
     render(<ChatWindow {...baseProps} />);
-    
+
     await waitFor(() => {
       expect(errorSpy).toHaveBeenCalledWith('Error fetching messages:', expect.any(Error));
     });
-    
+
     errorSpy.mockRestore();
   });
 
   it('limpia IntersectionObserver al desmontar', async () => {
     const mockDisconnect = jest.fn();
     const mockObserve = jest.fn();
-    
+
     (global as any).IntersectionObserver = jest.fn().mockImplementation(() => ({
       observe: mockObserve,
       disconnect: mockDisconnect,
     }));
-  
+
     const { unmount } = render(<ChatWindow {...baseProps} />);
-    
+
     await waitFor(() => {
       expect(mockObserve).toHaveBeenCalled();
     });
-  
+
     unmount();
-    
+
     expect(mockDisconnect).toHaveBeenCalledTimes(1);
   });
 });

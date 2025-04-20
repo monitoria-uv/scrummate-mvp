@@ -1,7 +1,4 @@
-import {
-  getScrumCeremonyResponse,
-  getScrumRoleResponse,
-} from '@/utils/gemini';
+import { getScrumCeremonyResponse, getScrumRoleResponse } from '@/utils/gemini';
 
 jest.mock('@/utils/gemini', () => ({
   getScrumRoleResponse: jest.fn(),
@@ -19,7 +16,7 @@ describe('Generate a response from Gemini API (Scrum assistant)', () => {
 
     // 🧪 Simula respuesta de la función
     (getScrumRoleResponse as jest.Mock).mockResolvedValue(
-      'El Scrum Master facilita el proceso Scrum.'
+      'El Scrum Master facilita el proceso Scrum.',
     );
 
     const response = await getScrumRoleResponse(mockInput);
@@ -32,7 +29,7 @@ describe('Generate a response from Gemini API (Scrum assistant)', () => {
     const mockInput = '¿Qué sucede en una Sprint Retrospective?';
 
     (getScrumCeremonyResponse as jest.Mock).mockResolvedValue(
-      'Sprint Retrospective: su propósito es mejorar el proceso.'
+      'Sprint Retrospective: su propósito es mejorar el proceso.',
     );
 
     const response = await getScrumCeremonyResponse(mockInput);
@@ -46,7 +43,7 @@ describe('Generate a response from Gemini API (Scrum assistant)', () => {
     const mockInput = ''; // Simulamos entrada inválida
 
     (getScrumRoleResponse as jest.Mock).mockResolvedValue(
-      'ScrumMate es un asistente virtual para metodologías ágiles.'
+      'ScrumMate es un asistente virtual para metodologías ágiles.',
     );
 
     const response = await getScrumRoleResponse(mockInput);

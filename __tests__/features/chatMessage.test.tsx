@@ -47,9 +47,7 @@ describe('ChatMessage', () => {
       assistant: 'bg-custom-assistant',
     };
 
-    const { container } = render(
-      <ChatMessage message={message} messageStyles={customStyles} />
-    );
+    const { container } = render(<ChatMessage message={message} messageStyles={customStyles} />);
 
     expect(container.querySelector('.bg-custom-user')).toBeInTheDocument();
   });
@@ -57,7 +55,9 @@ describe('ChatMessage', () => {
   it('utiliza una función personalizada para renderizar avatar si se provee', () => {
     const message = createMessage({ sender: 'assistant' });
 
-    const renderAvatar = (sender: string) => <span>{sender === 'assistant' ? '🤖 Custom' : '👤 Custom'}</span>;
+    const renderAvatar = (sender: string) => (
+      <span>{sender === 'assistant' ? '🤖 Custom' : '👤 Custom'}</span>
+    );
 
     render(<ChatMessage message={message} renderAvatar={renderAvatar} />);
 
@@ -72,7 +72,7 @@ describe('ChatMessage', () => {
         message={message}
         className="extra-container-class"
         contentClassName="custom-content"
-      />
+      />,
     );
 
     expect(container.querySelector('.extra-container-class')).toBeInTheDocument();

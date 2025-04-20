@@ -21,7 +21,7 @@ describe('ChatHeader component', () => {
     render(
       <ChatHeader title="With Children">
         <button>Extra</button>
-      </ChatHeader>
+      </ChatHeader>,
     );
     expect(screen.getByRole('button', { name: /extra/i })).toBeInTheDocument();
   });
@@ -34,7 +34,10 @@ describe('ChatHeader component', () => {
 
   it('applies additional props (like id)', () => {
     render(<ChatHeader title="With ID" id="my-header" />);
-    expect(screen.getByRole('heading', { name: /with id/i }).closest('header')).toHaveAttribute('id', 'my-header');
+    expect(screen.getByRole('heading', { name: /with id/i }).closest('header')).toHaveAttribute(
+      'id',
+      'my-header',
+    );
   });
 
   it('applies custom className correctly', () => {
