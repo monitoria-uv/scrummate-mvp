@@ -64,6 +64,7 @@ export default [
       '@typescript-eslint/prefer-promise-reject-errors': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
       'react/no-unescaped-entities': 'off',
+      'react/display-name': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
     },
   },
@@ -78,7 +79,11 @@ export default [
       '.eslintrc.*',
       'postcss.config.mjs',
       'eslint.config.mjs',
-      '**/schema/*.ts', // Excluir archivos de esquema/zod
+      '**/schema/*.ts',
+      '**/coverage/**',
+      'jest.setup.ts',
+      '**/*.test.ts',
+      '**/*.test.tsx',
     ],
   },
 ];
