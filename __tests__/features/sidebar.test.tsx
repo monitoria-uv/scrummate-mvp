@@ -1,4 +1,3 @@
-// Archivo: AppSidebar.test.tsx
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AppSidebar } from '@/components/ui/features/sidebar';

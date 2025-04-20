@@ -1,4 +1,3 @@
-// Archivo: Footer.test.tsx
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Footer } from '@/components/ui/features/footer';
