@@ -1,8 +1,21 @@
-import { chatSchema } from '@/components/schema/chat';
+import { chatSchema } from '@/components/schemas/chat';
 import type { Chat } from '@/types/chat';
-import { messageSchema } from '@/components/schema/message';
+import { messageSchema } from '@/components/schemas/message';
 import type { Message } from '@/types/message';
+/**
+ * Provides asynchronous functions for interacting with the local IndexedDB database 'ScrumMateDB' to manage chats and messages.
+ *
+ * @module db
+ */
 
+/**
+ * Opens the IndexedDB database 'ScrumMateDB', creating it and its object stores ('chats', 'messages') if they do not exist.
+ *
+ * @async
+ * @function openDB
+ * @returns {Promise<IDBDatabase>} - A promise that resolves with the opened IDBDatabase instance.
+ * @throws {Error} - If the database fails to open or if event.target is null during the process.
+ */
 export async function openDB() {
   return new Promise((resolve, reject) => {
     console.log('🔹 Abriendo IndexedDB...');
@@ -52,7 +65,20 @@ export async function openDB() {
     };
   });
 }
+/**
+ * Provides asynchronous functions for interacting with the local IndexedDB database 'ScrumMateDB' to manage chats and messages.
+ *
+ * @module db
+ */
 
+/**
+ * Opens the IndexedDB database 'ScrumMateDB', creating it and its object stores ('chats', 'messages') if they do not exist.
+ *
+ * @async
+ * @function openDB
+ * @returns {Promise<IDBDatabase>} - A promise that resolves with the opened IDBDatabase instance.
+ * @throws {Error} - If the database fails to open or if event.target is null during the process.
+ */
 export async function addChat(chat: Chat): Promise<boolean> {
   try {
     const validatedChat = chatSchema.parse(chat);
@@ -77,7 +103,17 @@ export async function addChat(chat: Chat): Promise<boolean> {
     return Promise.reject(error.errors);
   }
 }
-
+/**
+ * Updates an existing chat in the 'chats' object store.
+ *
+ * @async
+ * @function updateChat
+ * @param {string} id - The ID of the chat to update.
+ * @param {Chat} chat - The updated chat object.
+ * @returns {Promise<boolean>} - A promise that resolves to `true` if the chat was updated successfully.
+ * @throws {Promise<ZodError>} - If the provided chat object does not conform to the `chatSchema`.
+ * @throws {Error} - If there is an error updating the chat in the database.
+ */
 export async function updateChat(id: string, chat: Chat): Promise<boolean> {
   try {
     const validatedChat = chatSchema.parse(chat);
@@ -101,7 +137,15 @@ export async function updateChat(id: string, chat: Chat): Promise<boolean> {
     return Promise.reject(error.errors);
   }
 }
-
+/**
+ * Deletes a chat from the 'chats' object store based on its ID.
+ *
+ * @async
+ * @function deleteChat
+ * @param {string} id - The ID of the chat to delete.
+ * @returns {Promise<boolean>} - A promise that resolves to `true` if the chat was deleted successfully.
+ * @throws {Error} - If there is an error deleting the chat from the database.
+ */
 export async function deleteChat(id: string): Promise<boolean> {
   try {
     const db = await openDB();
@@ -124,7 +168,16 @@ export async function deleteChat(id: string): Promise<boolean> {
     return Promise.reject(error.errors);
   }
 }
-
+/**
+ * Adds a new message to the 'messages' object store in the database.
+ *
+ * @async
+ * @function addMessage
+ * @param {Message} message - The message object to add. The 'id' property will be automatically generated.
+ * @returns {Promise<boolean>} - A promise that resolves to `true` if the message was added successfully.
+ * @throws {Promise<ZodError>} - If the provided message object does not conform to the `messageSchema`.
+ * @throws {Error} - If there is an error adding the message to the database.
+ */
 export async function addMessage(message: Message): Promise<boolean> {
   try {
     const validatedMessage = messageSchema.parse(message);
@@ -149,7 +202,15 @@ export async function addMessage(message: Message): Promise<boolean> {
     return Promise.reject(error.errors);
   }
 }
-
+/**
+ * Retrieves all messages from the 'messages' object store that belong to a specific chat ID, sorted by timestamp.
+ *
+ * @async
+ * @function getMessagesByChatId
+ * @param {string} chatId - The ID of the chat to retrieve messages for.
+ * @returns {Promise<Message[]>} - A promise that resolves to an array of `Message` objects for the given chat ID, sorted by their timestamp in ascending order.
+ * @throws {Error} - If there is an error opening the database or retrieving messages.
+ */
 export async function getMessagesByChatId(chatId: string): Promise<Message[]> {
   try {
     const db = await openDB();
@@ -178,7 +239,17 @@ export async function getMessagesByChatId(chatId: string): Promise<Message[]> {
     return Promise.reject(error.errors);
   }
 }
-
+/**
+ * Updates an existing message in the 'messages' object store.
+ *
+ * @async
+ * @function updateMessage
+ * @param {string} id - The ID of the message to update.
+ * @param {Message} message - The updated message object.
+ * @returns {Promise<boolean>} - A promise that resolves to `true` if the message was updated successfully.
+ * @throws {Promise<ZodError>} - If the provided message object does not conform to the `chatSchema`.
+ * @throws {Error} - If there is an error updating the message in the database.
+ */
 export async function updateMessage(id: string, message: Message): Promise<boolean> {
   try {
     const validatedMessage = chatSchema.parse(message);
@@ -202,7 +273,15 @@ export async function updateMessage(id: string, message: Message): Promise<boole
     return Promise.reject(error.errors);
   }
 }
-
+/**
+ * Deletes a message from the 'messages' object store based on its ID.
+ *
+ * @async
+ * @function deleteMessage
+ * @param {string} id - The ID of the message to delete.
+ * @returns {Promise<boolean>} - A promise that resolves to `true` if the message was deleted successfully.
+ * @throws {Error} - If there is an error deleting the message from the database.
+ */
 export async function deleteMessage(id: string): Promise<boolean> {
   try {
     const db = await openDB();
@@ -226,7 +305,14 @@ export async function deleteMessage(id: string): Promise<boolean> {
   }
 }
 
-// 🔹 Obtener todos los chats
+/**
+ * Retrieves all chats from the 'chats' object store.
+ *
+ * @async
+ * @function getAllChats
+ * @returns {Promise<Chat[]>} - A promise that resolves to an array of all `Chat` objects in the database.
+ * @throws {Error} - If there is an error opening the database or retrieving chats.
+ */
 export async function getAllChats(): Promise<Chat[]> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
@@ -238,8 +324,14 @@ export async function getAllChats(): Promise<Chat[]> {
     request.onerror = () => reject(request.error);
   });
 }
-
-// 🔹 Obtener todos los mensajes
+/**
+ * Retrieves all messages from the 'messages' object store.
+ *
+ * @async
+ * @function getAllMessages
+ * @returns {Promise<Message[]>} - A promise that resolves to an array of all `Message` objects in the database.
+ * @throws {Error} - If there is an error opening the database or retrieving messages.
+ */
 export async function getAllMessages(): Promise<Message[]> {
   const db = await openDB();
   return new Promise((resolve, reject) => {

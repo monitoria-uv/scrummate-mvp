@@ -40,7 +40,23 @@ const items = [
     icon: Layers2,
   },
 ];
-
+/**
+ * A sidebar component for the application, providing navigation links to different assistant features.
+ *
+ * @component
+ * @returns {JSX.Element} - Renders a sidebar with a header (logo and title) and a menu of navigation items.
+ *
+ * @remarks
+ * - Uses the `next/link` component for navigation.
+ * - Dynamically determines the active link using `next/navigation`.
+ * - The navigation items are statically defined within the component.
+ * - Utilizes UI components from `@/components/ui/sidebar` for structure and styling.
+ *
+ * @example
+ * ```tsx
+ * <AppSidebar />
+ * ```
+ */
 export function AppSidebar() {
   const currentPath = usePathname();
 

@@ -8,7 +8,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-
+/**
+ * A specialized header for the Scrum assistant chat, displaying the title and providing access to a help guide.
+ *
+ * @component
+ * @returns {JSX.Element} - Renders a `ChatHeader` with the Scrum assistant title, icon, and a help dialog trigger.
+ *
+ * @remarks
+ * - Uses the `ChatHeader` component for the main header structure.
+ * - Includes a `Dialog` component to display a help guide with example questions and links to other assistants.
+ * - The dialog's open state is managed internally using the `useState` hook.
+ * - The help trigger button uses a `QuestionMarkCircledIcon` for visual indication.
+ *
+ * @example
+ * ```tsx
+ * <ScrumAssistantChatHeader />
+ * ```
+ */
 export function ScrumAssistantChatHeader() {
   const [open, setOpen] = useState(false);
 
