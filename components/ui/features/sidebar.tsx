@@ -20,22 +20,22 @@ import { UserRoundCog, Presentation, Layers2, Lightbulb } from 'lucide-react';
 
 const items = [
   {
-    title: 'Scrum Assistant',
+    title: 'Asistente de Scrum',
     link: '/scrum-assistant',
     icon: UserRoundCog,
   },
   {
-    title: 'Meet Assistant',
+    title: 'Asistente de Reuniones',
     link: '/meet-assistant',
     icon: Presentation,
   },
   {
-    title: 'User Stories',
+    title: 'Historias de Usuario',
     link: '/user-stories',
     icon: Lightbulb,
   },
   {
-    title: 'Good Practices',
+    title: 'Buenas Prácticas',
     link: '/good-practices',
     icon: Layers2,
   },
