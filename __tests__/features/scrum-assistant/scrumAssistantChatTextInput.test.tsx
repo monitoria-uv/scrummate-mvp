@@ -39,7 +39,7 @@ describe('<ScrumAssistantChatTextInput />', () => {
     render(<ScrumAssistantChatTextInput {...mockProps} />);
 
     expect(screen.getByTestId('chat-text-input')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Habla con tu asistente Scrum...')).toBeInTheDocument();    
+    expect(screen.getByPlaceholderText('Habla con tu asistente Scrum...')).toBeInTheDocument();
   });
 
   it('maneja correctamente el evento onChange', () => {

@@ -74,7 +74,7 @@ export const ChatTextInput = React.memo(function ChatTextInput({
    *
    * @param e - The keyboard event triggered by the text area.
    */
-  
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -99,10 +99,7 @@ export const ChatTextInput = React.memo(function ChatTextInput({
 
   return (
     <div className={`border-t p-4 bg-white ${wrapperClassName}`}>
-      <form
-        className="flex items-end gap-2 w-full"
-        onSubmit={handleSubmit}
-      >
+      <form className="flex items-end gap-2 w-full" onSubmit={handleSubmit}>
         <Textarea
           ref={textAreaRef}
           value={value}

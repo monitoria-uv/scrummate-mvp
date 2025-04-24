@@ -17,7 +17,7 @@ import type { Message } from '@/types/message';
  * @throws {Error} - If the database fails to open or if event.target is null during the process.
  */
 export async function openDB() {
-  return new Promise((resolve, reject) => {    
+  return new Promise((resolve, reject) => {
     const request = indexedDB.open('ScrumMateDB', 2);
 
     function getRequestResult(event: Event): IDBDatabase | null {
@@ -48,7 +48,7 @@ export async function openDB() {
       if (!db) {
         reject(new Error('Failed to open database: event.target is null'));
         return;
-      }      
+      }
       resolve(db);
     };
 
@@ -185,11 +185,11 @@ export async function addMessage(message: Message): Promise<boolean> {
       const store = tx.objectStore('messages');
       const request = store.add({ ...message, id: Date.now(), validatedMessage });
 
-      request.onsuccess = () => {        
+      request.onsuccess = () => {
         res(true);
       };
 
-      request.onerror = () => {        
+      request.onerror = () => {
         rej(request.error);
       };
     });
@@ -218,7 +218,7 @@ export async function getMessagesByChatId(chatId: string): Promise<Message[]> {
       const request = index.getAll(chatId);
 
       request.onsuccess = () => {
-        const messages = request.result as Message[];        
+        const messages = request.result as Message[];
         const sorted = messages.sort(
           (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
         );
