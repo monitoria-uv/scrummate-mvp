@@ -17,8 +17,7 @@ import type { Message } from '@/types/message';
  * @throws {Error} - If the database fails to open or if event.target is null during the process.
  */
 export async function openDB() {
-  return new Promise((resolve, reject) => {
-    console.log('🔹 Abriendo IndexedDB...');
+  return new Promise((resolve, reject) => {    
     const request = indexedDB.open('ScrumMateDB', 2);
 
     function getRequestResult(event: Event): IDBDatabase | null {
@@ -49,8 +48,7 @@ export async function openDB() {
       if (!db) {
         reject(new Error('Failed to open database: event.target is null'));
         return;
-      }
-      console.log('🔹 Base de datos abierta exitosamente');
+      }      
       resolve(db);
     };
 
@@ -187,13 +185,11 @@ export async function addMessage(message: Message): Promise<boolean> {
       const store = tx.objectStore('messages');
       const request = store.add({ ...message, id: Date.now(), validatedMessage });
 
-      request.onsuccess = () => {
-        console.log('🔹 Mensaje agregado exitosamente');
+      request.onsuccess = () => {        
         res(true);
       };
 
-      request.onerror = () => {
-        console.error('🔹 Error al agregar mensaje:', request.error);
+      request.onerror = () => {        
         rej(request.error);
       };
     });
@@ -214,23 +210,23 @@ export async function addMessage(message: Message): Promise<boolean> {
 export async function getMessagesByChatId(chatId: string): Promise<Message[]> {
   try {
     const db = await openDB();
+
     return new Promise((res, rej) => {
       const tx = (db as IDBDatabase).transaction('messages', 'readonly');
       const store = tx.objectStore('messages');
-      const request = store.getAll();
+      const index = store.index('chat_id');
+      const request = index.getAll(chatId);
+
       request.onsuccess = () => {
-        console.log('🔹 Mensajes obtenidos exitosamente');
-        const result = request.result as Message[];
-        console.log(result);
-        const filtered = result.filter((msg) => msg.chat_id === chatId);
-        const sorted = filtered.sort(
+        const messages = request.result as Message[];        
+        const sorted = messages.sort(
           (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
         );
         res(sorted);
       };
 
       request.onerror = () => {
-        console.error('🔹 Error al obtener mensajes:', request.error);
+        console.error('🔹 Error al obtener mensajes por chat_id:', request.error);
         rej(request.error);
       };
     });
@@ -239,6 +235,7 @@ export async function getMessagesByChatId(chatId: string): Promise<Message[]> {
     return Promise.reject(error.errors);
   }
 }
+
 /**
  * Updates an existing message in the 'messages' object store.
  *
