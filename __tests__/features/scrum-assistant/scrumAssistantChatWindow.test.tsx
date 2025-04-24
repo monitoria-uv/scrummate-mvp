@@ -101,7 +101,7 @@ describe('<ScrumAssistantChatWindow />', () => {
 
     // Usar un selector más flexible para el input
     const inputElement = screen.getByRole('textbox');
-    const sendButton = screen.getByRole('button', { name: /Scrum!/i });
+    const sendButton = screen.getByRole('button', { name: /Enviar/i });
 
     fireEvent.change(inputElement, { target: { value: 'Hola asistente' } });
     fireEvent.click(sendButton);
@@ -113,7 +113,7 @@ describe('<ScrumAssistantChatWindow />', () => {
 
   it('no hace nada si se intenta enviar un mensaje vacío', () => {
     render(<ScrumAssistantChatWindow chatId={chatId} />);
-    const sendButton = screen.getByRole('button', { name: /Scrum!/i });
+    const sendButton = screen.getByRole('button', { name: /Enviar/i });
     fireEvent.click(sendButton);
     expect(addMessage).not.toHaveBeenCalled();
   });
@@ -136,6 +136,6 @@ describe('<ScrumAssistantChatWindow />', () => {
 
   it('el botón de enviar tiene un rol y nombre accesible', () => {
     render(<ScrumAssistantChatWindow chatId={chatId} />);
-    expect(screen.getByRole('button', { name: /Scrum!/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Enviar/i })).toBeInTheDocument();
   });
 });

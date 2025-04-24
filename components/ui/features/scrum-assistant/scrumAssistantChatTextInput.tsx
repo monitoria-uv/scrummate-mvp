@@ -49,7 +49,6 @@ export const ScrumAssistantChatTextInput = ({
       placeholder="Habla con tu asistente Scrum..."
       textareaClassName="bg-blue-50 border-blue-300 focus-visible:ring-blue-500"
       buttonClassName="bg-blue-600 hover:bg-blue-700 text-white"
-      buttonLabel="Scrum!"
     />
   );
 };

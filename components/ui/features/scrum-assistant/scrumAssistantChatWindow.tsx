@@ -61,6 +61,8 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
 
       await addMessage(userMessage);
 
+      setLoading(true);
+
       try {
         const responseText = await getScrumRoleResponse(userMessage.text);
         const assistantMessage: Message = {
@@ -74,8 +76,10 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
         await addMessage(assistantMessage);
         return [userMessage, assistantMessage];
       } catch (error) {
-        console.error('Error al generar respuesta del asistente Scrum:', error);
+        console.error('Error al generar respuesta:', error);
         return [userMessage];
+      } finally {
+        setLoading(false);
       }
     },
     [chatId],
@@ -89,11 +93,9 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
    */
   const handleSend = async () => {
     if (!input.trim()) return;
-    setLoading(true);
     await onSendMessage(input);
     setInput('');
     setRefreshTrigger((prev) => prev + 1);
-    setLoading(false);
   };
   return (
     <>

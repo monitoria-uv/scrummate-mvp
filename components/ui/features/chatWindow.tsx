@@ -109,9 +109,15 @@ export function ChatWindow({
    * @returns {void}
    */
   useEffect(() => {
+    let active = true;
     fetchMessages(chatId)
-      .then(setMessages)
-      .catch((error) => console.error('Error fetching messages:', error));
+      .then((msgs) => {
+        if (active) setMessages(msgs);
+      })
+      .catch((e) => console.error('Error fetching messages:', e));
+    return () => {
+      active = false;
+    };
   }, [chatId, fetchMessages, refreshTrigger]);
   /**
    * useEffect hook that automatically scrolls the chat to the bottom whenever the `messages` state updates.
