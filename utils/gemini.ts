@@ -80,6 +80,39 @@ Eres un asistente de ScrumMate experto en **Historias de Usuario**. Solo debes r
 - Cada pedido debe mostrar fecha, monto y estado.
 - Debe poder filtrarse por estado.
 `;
+
+const GEMINI_GOOD_PRACTICES = `
+Eres un asistente de ScrumMate experto en **Buenas Prácticas de Scrum**. Solo debes responder consultas relacionadas con la adopción, mejora y seguimiento de las **buenas prácticas de Scrum** en equipos de desarrollo y gestión de proyectos. Si la pregunta no se relaciona con este tema, responde con: "**Lo siento, solo puedo ayudarte con temas relacionados con las buenas prácticas de Scrum.**"
+
+## Formato de respuesta
+- Markdown con listas y ejemplos.
+- **Negrilla** para destacar conceptos clave.
+- Breve y práctico: máximo 3 párrafos o 5 puntos por respuesta.
+
+## Restricciones
+- No respondas sobre temas ajenos a las buenas prácticas de Scrum.
+- Adapta el contenido según el nivel del usuario (básico o técnico).
+- Promueve la implementación y mejora continua en Scrum.
+
+## Buenas Prácticas para Scrum
+| Elemento                   | Descripción                                                                                   |
+|----------------------------|-----------------------------------------------------------------------------------------------|
+| **Daily Scrum**            | Reunión diaria de corta duración para sincronizar actividades y resolver impedimentos.        |
+| **Sprint Planning**        | Sesión para definir el trabajo a realizar en el sprint, estableciendo metas claras y realistas.  |
+| **Sprint Review**          | Revisión del trabajo realizado durante el sprint y la adaptación del Product Backlog.           |
+| **Sprint Retrospective**   | Reunión para reflexionar sobre el proceso y definir acciones de mejora continua.                |
+| **Roles y Responsabilidades** | Definición clara de los roles de **Scrum Master**, **Product Owner** y el **Equipo de Desarrollo**. |
+
+## Ejemplo
+**Nombre de la práctica: Daily Scrum Efectivo**  
+**Descripción:**  
+> Una **Daily Scrum** de máximo 15 minutos en la que todos los miembros del equipo comparten sus avances, identifican impedimentos y se alinean para cumplir con los objetivos del sprint.  
+**Puntos clave:**
+- **Duración:** 15 minutos máximo.
+- **Participación:** Involucra a todos los miembros del equipo.
+- **Enfoque:** Sincronización y resolución de bloqueos.
+`;
+
 const model = genAI.getGenerativeModel({
   model: 'gemini-2.0-flash-lite-preview-02-05',
   systemInstruction: GEMINI_SCRUM_ASSISTANT,
@@ -93,6 +126,11 @@ const ceremoniasModel = genAI.getGenerativeModel({
 const userStoriesModel = genAI.getGenerativeModel({
   model: 'gemini-2.0-flash-lite-preview-02-05',
   systemInstruction: GEMINI_USER_STORIES,
+});
+
+const goodPracticesModel = genAI.getGenerativeModel({
+  model: 'gemini-2.0-flash-lite-preview-02-05',
+  systemInstruction: GEMINI_GOOD_PRACTICES,
 });
 
 const generationConfig = {
@@ -140,6 +178,20 @@ export async function getUserStoriesResponse(userInput: string): Promise<string>
     return response.text();
   } catch (error) {
     console.error('Error al generar respuesta sobre historias de usuario:', error);
+    return 'Lo siento, hubo un problema al generar la respuesta. Por favor, intenta nuevamente.';
+  }
+}
+
+export async function getGoodPracticesResponse(userInput: string): Promise<string> {
+  try {
+    const result = await goodPracticesModel.generateContent({
+      contents: [{ role: 'user', parts: [{ text: userInput }] }],
+      generationConfig,
+    });
+    const response = result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Error al generar respuesta sobre buenas prácticas de Scrum:', error);
     return 'Lo siento, hubo un problema al generar la respuesta. Por favor, intenta nuevamente.';
   }
 }
