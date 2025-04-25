@@ -6,6 +6,23 @@ import type { Message } from '@/types/message';
 import { getGoodPracticesResponse } from '@/utils/gemini';
 import { GoodPracticesChatMessage } from '@/components/ui/features/good-practices/goodPracticesChatMessage';
 
+/**
+ * A module that integrates the chat window and input for the Good Practices assistant functionality.
+ *
+ * @component
+ * @param {Readonly<{ chatId: string }>} props - The props object containing the `chatId` for the chat session.
+ * @returns {JSX.Element} - Renders the `ChatWindow` and `GoodPracticesChatTextInput` components.
+ *
+ * @remarks
+ * - This module serves as a container to assemble the chat interface for interacting with the Good Practices assistant.
+ * - It directly renders the chat window and input components, enabling users to send messages and receive responses.
+ * - The `ChatWindow` fetches messages dynamically using the provided `chatId`.
+ *
+ * @example
+ * ```tsx
+ * <GoodPracticesChatWindow chatId="good-practices-chat" />
+ * ```
+ */
 export function GoodPracticesChatWindow({ chatId }: Readonly<{ chatId: string }>) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);

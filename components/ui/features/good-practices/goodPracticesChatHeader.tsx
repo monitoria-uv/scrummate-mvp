@@ -9,6 +9,22 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
+/**
+ * A module that provides the header and dialog interface for the Good Practices Scrum assistant.
+ *
+ * @component
+ * @returns {JSX.Element} - Renders the `GoodPracticesChatHeader` component with a dialog for guidance.
+ *
+ * @remarks
+ * - This module serves as the header for the Good Practices Scrum assistant, including a help dialog.
+ * - The dialog contains key questions and additional resources for Scrum practices.
+ * - It uses the `ChatHeader` component as the main container and integrates Radix UI's `Dialog` for modal functionality.
+ *
+ * @example
+ * ```tsx
+ * <GoodPracticesChatHeader />
+ * ```
+ */
 export function GoodPracticesChatHeader() {
   const [open, setOpen] = useState(false);
 
@@ -67,3 +83,4 @@ export function GoodPracticesChatHeader() {
     </ChatHeader>
   );
 }
+
