@@ -115,11 +115,9 @@ describe('<UserStoriesChatWindow />', () => {
     (getMessagesByChatId as jest.Mock).mockResolvedValue([]);
     render(<UserStoriesChatWindow chatId={chatId} />);
     expect(
-      await screen.findByText(
-        /📘 Comienza preguntando sobre tus historias de usuario./i,
-      ),
+      await screen.findByText(/📘 Comienza preguntando sobre tus historias de usuario./i),
     ).toBeInTheDocument();
-  });  
+  });
 
   it('tiene roles accesibles para el input y el botón', () => {
     render(<UserStoriesChatWindow chatId={chatId} />);
