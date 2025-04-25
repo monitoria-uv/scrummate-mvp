@@ -20,22 +20,22 @@ import { UserRoundCog, Presentation, Layers2, Lightbulb } from 'lucide-react';
 
 const items = [
   {
-    title: 'Scrum Assistant',
+    title: 'Asistente de Scrum',
     link: '/scrum-assistant',
     icon: UserRoundCog,
   },
   {
-    title: 'Meet Assistant',
+    title: 'Asistente de Reuniones',
     link: '/meet-assistant',
     icon: Presentation,
   },
   {
-    title: 'User Stories',
+    title: 'Historias de Usuario',
     link: '/user-stories',
     icon: Lightbulb,
   },
   {
-    title: 'Good Practices',
+    title: 'Buenas Prácticas',
     link: '/good-practices',
     icon: Layers2,
   },
@@ -64,7 +64,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center justify-start gap-2 px-2">
-          <Image src="/icon.png" alt="FinTrack" width={40} height={40} />
+          <Image src="/icon.png" alt="FinTrack" width={40} height={40} priority />
           <h1 className="text-2xl font-semibold text-gray-800">ScrumMate</h1>
         </div>
       </SidebarHeader>

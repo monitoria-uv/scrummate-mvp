@@ -1,34 +1,35 @@
 'use client';
 
 import { ChatWindow } from '@/components/ui/features/chatWindow';
-import { getScrumRoleResponse } from '@/utils/gemini';
+import { getUserStoriesResponse } from '@/utils/gemini';
 import { addMessage, getMessagesByChatId } from '@/db/db';
 import type { Message } from '@/types/message';
 import { useState, useCallback } from 'react';
-import { ScrumAssistantChatTextInput } from '@/components/ui/features/scrum-assistant/scrumAssistantChatTextInput';
-import { ScrumAssistantChatMessage } from '@/components/ui/features/scrum-assistant/scrumAssistantChatMessage';
+import { UserStoriesChatTextInput } from '@/components/ui/features/user-stories/userStoriesChatTextInput';
+import { UserStoriesChatMessage } from '@/components/ui/features/user-stories/userStoriesChatMessage';
+
 /**
- * Provides a chat window specifically for interacting with a Scrum assistant, handling message fetching, sending, and display.
+ * Provides a chat window specifically for interacting with a User Stories assistant, handling message fetching, sending, and display.
  *
  * @component
  * @param {{ chatId: string }} props - The props for the component.
- * @param {string} props.chatId - The unique identifier of the chat session with the Scrum assistant.
- * @returns {JSX.Element} - Renders a `ChatWindow` for displaying messages and a `ScrumAssistantChatTextInput` for user input.
+ * @param {string} props.chatId - The unique identifier of the chat session with the User Stories assistant.
+ * @returns {JSX.Element} - Renders a `ChatWindow` for displaying messages and a `UserStoriesChatTextInput` for user input.
  *
  * @remarks
  * - Manages the state for user input, loading status, and a trigger for refreshing messages.
  * - Uses `useCallback` to memoize the `fetchMessages` and `onSendMessage` functions, optimizing performance.
  * - `fetchMessages` retrieves messages for the given `chatId` from the database.
- * - `onSendMessage` sends the user's message, gets a response from the Scrum assistant via `getScrumRoleResponse`, and adds both messages to the database.
+ * - `onSendMessage` sends the user's message, gets a response from the User Stories assistant via `getUserStoriesResponse`, and adds both messages to the database.
  * - The `refreshTrigger` state is incremented after sending a message to force a re-fetch of messages in the `ChatWindow`.
- * - Renders messages using the `ScrumAssistantChatMessage` component.
+ * - Renders messages using the `UserStoriesChatMessage` component.
  *
  * @example
  * ```tsx
- * <ScrumAssistantChatWindow chatId="some-unique-chat-id" />
+ * <UserStoriesChatWindow chatId="some-unique-chat-id" />
  * ```
  */
-export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
+export function UserStoriesChatWindow({ chatId }: { chatId: string }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -44,7 +45,7 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
   }, []);
 
   /**
-   * Sends a user message and retrieves a response from the Scrum assistant, adding both to the database.
+   * Sends a user message and retrieves a response from the User Stories assistant, adding both to the database.
    *
    * @param {string} input - The text content of the user's message.
    * @returns {Promise<Message[]>} - A promise that resolves to an array containing the user's message and the assistant's response (if successful).
@@ -60,11 +61,10 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
       };
 
       await addMessage(userMessage);
-
       setLoading(true);
 
       try {
-        const responseText = await getScrumRoleResponse(userMessage.text);
+        const responseText = await getUserStoriesResponse(userMessage.text);
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           chat_id: chatId,
@@ -76,7 +76,7 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
         await addMessage(assistantMessage);
         return [userMessage, assistantMessage];
       } catch (error) {
-        console.error('Error al generar respuesta:', error);
+        console.error('Error al generar respuesta del asistente de historias:', error);
         return [userMessage];
       } finally {
         setLoading(false);
@@ -84,6 +84,7 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
     },
     [chatId],
   );
+
   /**
    * Handles the process of sending a user's message. It checks if the input is not empty,
    * sets the loading state, sends the message via `onSendMessage`, clears the input,
@@ -97,6 +98,7 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
     setInput('');
     setRefreshTrigger((prev) => prev + 1);
   };
+
   return (
     <>
       <ChatWindow
@@ -104,13 +106,11 @@ export function ScrumAssistantChatWindow({ chatId }: { chatId: string }) {
         fetchMessages={fetchMessages}
         onSendMessage={onSendMessage}
         refreshTrigger={refreshTrigger}
-        emptyLabel="🧠 Escribe algo para empezar tu conversación con el asistente Scrum."
-        loadingLabel="Escribiendo respuesta..."
-        renderMessage={(message) => (
-          <ScrumAssistantChatMessage key={message.id} message={message} />
-        )}
+        emptyLabel="📘 Comienza preguntando sobre tus historias de usuario."
+        loadingLabel="Redactando sugerencia..."
+        renderMessage={(message) => <UserStoriesChatMessage key={message.id} message={message} />}
       />
-      <ScrumAssistantChatTextInput
+      <UserStoriesChatTextInput
         value={input}
         onChange={setInput}
         onSend={handleSend}

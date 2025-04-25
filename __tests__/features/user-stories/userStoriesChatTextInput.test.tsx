@@ -1,7 +1,6 @@
-// Archivo: ScrumAssistantChatTextInput.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ScrumAssistantChatTextInput } from '@/components/ui/features/scrum-assistant/scrumAssistantChatTextInput';
+import { UserStoriesChatTextInput } from '@/components/ui/features/user-stories/userStoriesChatTextInput';
 import { ChatTextInput } from '@/components/ui/features/chatTextInput';
 
 // Mock del componente ChatTextInput para verificar props
@@ -27,7 +26,7 @@ jest.mock('@/components/ui/features/chatTextInput', () => ({
   )),
 }));
 
-describe('<ScrumAssistantChatTextInput />', () => {
+describe('<UserStoriesChatTextInput />', () => {
   const mockProps = {
     value: '',
     onChange: jest.fn(),
@@ -36,14 +35,16 @@ describe('<ScrumAssistantChatTextInput />', () => {
   };
 
   it('se monta correctamente con todas las props', () => {
-    render(<ScrumAssistantChatTextInput {...mockProps} />);
+    render(<UserStoriesChatTextInput {...mockProps} />);
 
     expect(screen.getByTestId('chat-text-input')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Habla con tu asistente Scrum...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Describe o pide ayuda sobre historias de usuario...'),
+    ).toBeInTheDocument();
   });
 
   it('maneja correctamente el evento onChange', () => {
-    render(<ScrumAssistantChatTextInput {...mockProps} />);
+    render(<UserStoriesChatTextInput {...mockProps} />);
 
     const input = screen.getByTestId('text-input');
     fireEvent.change(input, { target: { value: 'new message' } });
@@ -52,7 +53,7 @@ describe('<ScrumAssistantChatTextInput />', () => {
   });
 
   it('maneja correctamente el evento onSend', () => {
-    render(<ScrumAssistantChatTextInput {...mockProps} value="test message" />);
+    render(<UserStoriesChatTextInput {...mockProps} value="test message" />);
 
     const button = screen.getByTestId('send-button');
     fireEvent.click(button);
@@ -61,25 +62,25 @@ describe('<ScrumAssistantChatTextInput />', () => {
   });
 
   it('deshabilita el botón cuando loading es true', () => {
-    render(<ScrumAssistantChatTextInput {...mockProps} loading={true} />);
+    render(<UserStoriesChatTextInput {...mockProps} loading={true} />);
 
     expect(screen.getByTestId('send-button')).toBeDisabled();
   });
 
   it('deshabilita el botón cuando el valor está vacío', () => {
-    render(<ScrumAssistantChatTextInput {...mockProps} value="" />);
+    render(<UserStoriesChatTextInput {...mockProps} value="" />);
 
     expect(screen.getByTestId('send-button')).toBeDisabled();
   });
 
   it('aplica las clases CSS personalizadas correctamente', () => {
-    render(<ScrumAssistantChatTextInput {...mockProps} />);
+    render(<UserStoriesChatTextInput {...mockProps} />);
 
     const input = screen.getByTestId('text-input');
     const button = screen.getByTestId('send-button');
 
-    expect(input).toHaveClass('bg-blue-50 border-blue-300 focus-visible:ring-blue-500');
-    expect(button).toHaveClass('bg-blue-600 hover:bg-blue-700 text-white');
+    expect(input).toHaveClass('bg-yellow-50 border-yellow-300 focus-visible:ring-yellow-500');
+    expect(button).toHaveClass('bg-yellow-600 hover:bg-yellow-700 text-white');
   });
 
   afterEach(() => {

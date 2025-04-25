@@ -1,5 +1,5 @@
 import type { FC, KeyboardEvent, ReactNode } from 'react';
-import { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { PaperPlaneIcon } from '@radix-ui/react-icons';
@@ -52,7 +52,7 @@ export interface ChatTextInputProps {
  * />
  * ```
  */
-export const ChatTextInput: FC<ChatTextInputProps> = ({
+export const ChatTextInput = React.memo(function ChatTextInput({
   value,
   onChange,
   onSend,
@@ -63,7 +63,7 @@ export const ChatTextInput: FC<ChatTextInputProps> = ({
   wrapperClassName = '',
   buttonIcon = <PaperPlaneIcon className="h-4 w-4 mr-1" />,
   buttonLabel = 'Enviar',
-}) => {
+}: ChatTextInputProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   /**
@@ -74,26 +74,32 @@ export const ChatTextInput: FC<ChatTextInputProps> = ({
    *
    * @param e - The keyboard event triggered by the text area.
    */
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (value.trim() !== '' && !loading) {
+          onSend();
+        }
+      }
+    },
+    [value, loading, onSend],
+  );
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (value.trim() !== '' && !loading) {
         onSend();
       }
-    }
-  };
+    },
+    [value, loading, onSend],
+  );
 
   return (
     <div className={`border-t p-4 bg-white ${wrapperClassName}`}>
-      <form
-        className="flex items-end gap-2 w-full"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (value.trim() !== '' && !loading) {
-            onSend();
-          }
-        }}
-      >
+      <form className="flex items-end gap-2 w-full" onSubmit={handleSubmit}>
         <Textarea
           ref={textAreaRef}
           value={value}
@@ -102,12 +108,14 @@ export const ChatTextInput: FC<ChatTextInputProps> = ({
           placeholder={placeholder}
           disabled={loading}
           className={`resize-none flex-1 min-h-[44px] max-h-32 ${textareaClassName}`}
+          aria-label="Escribe tu mensaje"
         />
         <Button
           type="submit"
           variant="default"
           className={`min-h-[44px] max-h-32 ${buttonClassName}`}
           disabled={loading || value.trim() === ''}
+          aria-label="Enviar mensaje"
         >
           {buttonIcon}
           {buttonLabel}
@@ -115,4 +123,4 @@ export const ChatTextInput: FC<ChatTextInputProps> = ({
       </form>
     </div>
   );
-};
+});

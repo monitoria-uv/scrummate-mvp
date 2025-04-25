@@ -56,10 +56,10 @@ describe('<AppSidebar />', () => {
     render(<AppSidebar />, { wrapper: Wrapper });
 
     const items = [
-      { title: 'Scrum Assistant', link: '/scrum-assistant' },
-      { title: 'Meet Assistant', link: '/meet-assistant' },
-      { title: 'User Stories', link: '/user-stories' },
-      { title: 'Good Practices', link: '/good-practices' },
+      { title: 'Asistente de Scrum', link: '/scrum-assistant' },
+      { title: 'Asistente de Reuniones', link: '/meet-assistant' },
+      { title: 'Historias de Usuario', link: '/user-stories' },
+      { title: 'Buenas Prácticas', link: '/good-practices' },
     ];
 
     items.forEach((item) => {
@@ -73,9 +73,9 @@ describe('<AppSidebar />', () => {
     mockUsePathname.mockReturnValue('/user-stories');
     render(<AppSidebar />, { wrapper: Wrapper });
 
-    const activeItem = screen.getByText('User Stories').closest('button');
+    const activeItem = screen.getByText('Historias de Usuario').closest('button');
 
-    const inactiveItem = screen.getByText('Scrum Assistant').closest('button');
+    const inactiveItem = screen.getByText('Asistente de Scrum').closest('button');
     expect(inactiveItem).not.toHaveClass('bg-accent');
   });
 
