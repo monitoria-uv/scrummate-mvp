@@ -44,4 +44,3 @@ export function MeetAssistantChatMessage({ message }: Readonly<MeetAssistantChat
     />
   );
 }
-

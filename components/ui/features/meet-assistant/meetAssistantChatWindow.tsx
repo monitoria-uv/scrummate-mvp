@@ -84,7 +84,7 @@ export function MeetAssistantChatWindow({ chatId }: Readonly<{ chatId: string }>
         fetchMessages={fetchMessages}
         onSendMessage={onSendMessage}
         refreshTrigger={refreshTrigger}
-        emptyLabel="🤝 Escribe algo para empezar tu conversación con el asistente de reuniones/ceremonias Scrum."
+        emptyLabel="🤝 Escribe algo para empezar tu conversación con el asistente de ceremonias Scrum."
         loadingLabel="Escribiendo respuesta..."
         renderMessage={(message) => <MeetAssistantChatMessage key={message.id} message={message} />}
       />

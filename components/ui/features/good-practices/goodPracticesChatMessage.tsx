@@ -44,4 +44,3 @@ export function GoodPracticesChatMessage({ message }: Readonly<GoodPracticesChat
     />
   );
 }
-
