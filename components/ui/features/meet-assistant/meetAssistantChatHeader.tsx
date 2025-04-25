@@ -9,6 +9,22 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
+/**
+ * A module that provides the header for the Scrum meeting assistant functionality.
+ *
+ * @component
+ * @returns {JSX.Element} - Renders the `ChatHeader` component with a help dialog.
+ *
+ * @remarks
+ * - This module serves as the header for the Scrum meeting assistant, including a help dialog with guidance for Scrum ceremonies.
+ * - It uses the `Dialog` component to display a guide with key questions and additional resources.
+ * - The header includes an icon and a button to trigger the help dialog.
+ *
+ * @example
+ * ```tsx
+ * <MeetAssistantChatHeader />
+ * ```
+ */
 export function MeetAssistantChatHeader() {
   const [open, setOpen] = useState(false);
 
