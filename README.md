@@ -5,27 +5,11 @@
 ## Tecnologías
 
 - Framework: [Next.js](https://nextjs.org/)
+- Jest (pruebas de componentes y pruebas unitarias)
 - LLM (Modelo de Lenguaje): Gemini
 - Estilo: CSS global y Tailwind
 - Linting & Formateo: ESLint + Prettier
-- Validaciones pre-commit: Husky + Lint-Staged
-- Despliegue: [Vercel](https://vercel.com/)
-
----
-
-## Estructura del proyecto
-
-```
-/src
-  /app         → Rutas y páginas (Next.js App Router)
-  favicon.ico  → Ícono del navegador
-  globals.css  → Estilos globales
-  layout.tsx   → Layout raíz compartido
-  page.tsx     → Página principal del MVP
-.husky         → Hooks Git pre-commit
-.eslint.config.mjs → Configuración de ESLint
-.prettierrc    → Reglas de formateo con Prettier
-```
+- Despliegue: [Render](https://render.com/)
 
 ---
 
@@ -44,29 +28,28 @@ cd scrummate-mvp
 npm install
 ```
 
-3. Ejecuta el entorno de desarrollo:
+3. Crea un archivo `.env`
+
+Para poder usar **localmente** el modelo necesitas obtener una API key de Gemini. Lo puedes hacer de forma gratuita en [este enlace](https://ai.google.dev/gemini-api/docs/api-key?hl=es-419). El contenido del `.env` debería ser:
+
+```bash
+NEXT_PUBLIC_GEMINI_API_KEY=[tu API key de Gemini]
+```
+
+Cuando subas tu proyecto clonado a un repositorio de GitHub asegúrate de añadir esta variable de entorno a secrets de GitHub Actions para el pipeline de CI.
+
+4. Ejecuta el entorno de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-4. Verifica linting y formateo:
+5. Verifica linting y formateo:
 
 ```bash
 npm run lint
 npm run format
 ```
-
----
-
-## Validaciones con Husky
-
-Este proyecto usa **Husky** y **Lint-Staged** para validar el código antes de cada commit.
-
-- Se ejecutan ESLint y Prettier en los archivos modificados.
-- Si se detectan errores, el commit es bloqueado hasta que se resuelvan.
-
-No necesitas ejecutar `husky install` manualmente. Ya está configurado al clonar e instalar el proyecto.
 
 ---
 
@@ -78,4 +61,4 @@ No necesitas ejecutar `husky install` manualmente. Ya está configurado al clona
 | `npm run lint`   | Ejecuta ESLint para revisar errores            |
 | `npm run format` | Aplica Prettier para formateo automático       |
 | `npm run clean`  | Limpia archivos generados (`.next`, etc.)      |
-| `npm run test`   | Placeholder para pruebas unitarias (pendiente) |
+| `npm run test`   | Placeholder para pruebas unitarias             |
